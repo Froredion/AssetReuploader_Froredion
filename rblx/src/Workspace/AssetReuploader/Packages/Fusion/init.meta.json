@@ -1,0 +1,17 @@
+{
+  "className": "ModuleScript",
+  "properties": {
+    "Attributes": {},
+    "Sandboxed": {
+      "Bool": false
+    },
+    "ScriptGuid": "{09E33C62-67B4-4DB7-A26C-EE0EF025DA45}",
+    "SourceAssetId": {
+      "Int64": -1
+    },
+    "Tags": {
+      "Tags": []
+    }
+  },
+  "ignoreUnknownInstances": true
+}

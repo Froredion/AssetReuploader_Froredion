@@ -1,0 +1,18 @@
+{
+    "name": "asset-reuploader",
+    "version": "1.0.0",
+    "description": "A Node.js tool for reuploading and replacing assets through Roblox's Open Cloud",
+    "main": "source.js",
+    "scripts": {
+        "start": "node source.js",
+        "build-exe": "pkg source.js --targets node16-win-x64 --output AssetReuploader.exe"
+    },
+    "dependencies": {
+        "follow-redirects": "^1.15.2",
+        "form-data": "^4.0.0",
+        "node-fetch": "^2.6.9"
+    },
+    "devDependencies": {
+        "pkg": "^5.8.1"
+    }
+}

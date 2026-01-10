@@ -8,7 +8,7 @@ const FormData = require("form-data");
 const { https } = require("follow-redirects");
 const zlib = require("zlib");
 const fetch = require("node-fetch");
-const { execFileSync } = require("child_process");
+const { execFileSync, exec } = require("child_process");
 
 const exeDir = process.pkg ? path.dirname(process.execPath) : __dirname;
 const outputDir = path.join(exeDir, "output");
@@ -16,6 +16,65 @@ const jobs = {};
 
 function sleep(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+function openInBrowser(url) {
+  if (process.platform === "win32") {
+    exec(`cmd /c start "" "${url}"`);
+  } else if (process.platform === "darwin") {
+    exec(`open "${url}"`);
+  } else {
+    exec(`xdg-open "${url}"`);
+  }
+  console.log(`[openInBrowser] Opened in browser: ${url}`);
+}
+
+function getDownloadsFolder() {
+  if (process.platform === "win32") {
+    return path.join(process.env.USERPROFILE, "Downloads");
+  } else if (process.platform === "darwin") {
+    return path.join(process.env.HOME, "Downloads");
+  } else {
+    return path.join(process.env.HOME, "Downloads");
+  }
+}
+
+async function watchForDownload(targetPath, timeoutMs = 60000) {
+  const downloadsFolder = getDownloadsFolder();
+  const existingFiles = new Set(fs.readdirSync(downloadsFolder));
+
+  console.log(`[watchForDownload] Watching ${downloadsFolder} for new files...`);
+
+  const startTime = Date.now();
+  while (Date.now() - startTime < timeoutMs) {
+    await sleep(500);
+    const currentFiles = fs.readdirSync(downloadsFolder);
+
+    for (const file of currentFiles) {
+      // Skip partial downloads
+      if (file.endsWith(".crdownload") || file.endsWith(".part") || file.endsWith(".tmp")) {
+        continue;
+      }
+
+      if (!existingFiles.has(file)) {
+        const downloadedPath = path.join(downloadsFolder, file);
+        // Wait a bit for file to finish writing
+        await sleep(500);
+
+        try {
+          fs.copyFileSync(downloadedPath, targetPath);
+          fs.unlinkSync(downloadedPath); // Remove from downloads
+          console.log(`[watchForDownload] Found and moved: ${file} -> ${targetPath}`);
+          return true;
+        } catch (err) {
+          console.error(`[watchForDownload] Failed to move file: ${err.message}`);
+        }
+      }
+    }
+  }
+
+  console.warn(`[watchForDownload] Timeout waiting for download`);
+  return false;
 }
 
 function getCookieFromRustCLI() {
@@ -140,7 +199,7 @@ async function actuallyUploadAnimation(
 async function downloadAssetLegacy(assetId, outputPath) {
   return new Promise((resolve, reject) => {
     console.log(`[downloadAssetLegacy] assetId=${assetId} -> ${outputPath}`);
-    const url = `https://assetdelivery.roblox.com/v1/asset/?id=${assetId}`;
+    const url = `https://assetdelivery.roblox.com/v1/asset?id=${assetId}`;
     const cookie = getCookieFromRustCLI();
     const fileStream = fs.createWriteStream(outputPath);
 
@@ -216,6 +275,17 @@ async function downloadAssetLegacyWithRetries(assetId, outputPath) {
         } else {
           throw err;
         }
+      } else if (err.message.includes("401")) {
+        // Fallback: open in browser and watch for download
+        const url = `https://assetdelivery.roblox.com/v1/asset?id=${assetId}`;
+        console.warn(`[downloadAssetLegacyWithRetries] 401 for asset ${assetId}, opening in browser...`);
+        openInBrowser(url);
+        const downloaded = await watchForDownload(outputPath, 60000);
+        if (downloaded) {
+          console.log(`[downloadAssetLegacyWithRetries] Browser download succeeded for ${assetId}`);
+          return;
+        }
+        throw new Error(`Asset ${assetId} browser download timed out`);
       } else {
         throw err;
       }

@@ -329,8 +329,8 @@ async function createImageAsset(
   customName
 ) {
   const creationContext = isGroup
-    ? { creator: { groupId: parseInt(creatorID, 10) } }
-    : { creator: { userId: parseInt(creatorID, 10) } };
+    ? { creator: { groupId: parseInt(creatorID, 10) }, assetPrivacy: "openUse" }
+    : { creator: { userId: parseInt(creatorID, 10) }, assetPrivacy: "openUse" };
 
   // Use custom name if provided, otherwise use filename
   const displayName = customName || path.basename(filePath);

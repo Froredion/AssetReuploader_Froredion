@@ -5,24 +5,16 @@
     </Properties>
     <Item class="Folder" referent="1">
       <Properties>
-        <string name="Name">Workspace</string>
+        <string name="Name">Components</string>
       </Properties>
       <Item class="Folder" referent="2">
         <Properties>
-          <string name="Name">AssetReuploader</string>
+          <string name="Name">PluginComponents</string>
         </Properties>
-        <Item class="Folder" referent="3">
+        <Item class="ModuleScript" referent="3">
           <Properties>
-            <string name="Name">Components</string>
-          </Properties>
-          <Item class="Folder" referent="4">
-            <Properties>
-              <string name="Name">PluginComponents</string>
-            </Properties>
-            <Item class="ModuleScript" referent="5">
-              <Properties>
-                <string name="Name">Toolbar</string>
-                <string name="Source"><![CDATA[local Plugin = script:FindFirstAncestorWhichIsA("Plugin")
+            <string name="Name">Toolbar</string>
+            <string name="Source"><![CDATA[local Plugin = script:FindFirstAncestorWhichIsA("Plugin")
 local Fusion = require(Plugin:FindFirstChild("Fusion", true))
 
 local Hydrate = Fusion.Hydrate
@@ -47,12 +39,12 @@ return function(props: ToolbarProperties): PluginToolbar
 	return Hydrate(newToolbar)(hydrateProps)
 end
 ]]></string>
-              </Properties>
-            </Item>
-            <Item class="ModuleScript" referent="6">
-              <Properties>
-                <string name="Name">ToolbarButton</string>
-                <string name="Source"><![CDATA[local Plugin = script:FindFirstAncestorWhichIsA("Plugin")
+          </Properties>
+        </Item>
+        <Item class="ModuleScript" referent="4">
+          <Properties>
+            <string name="Name">ToolbarButton</string>
+            <string name="Source"><![CDATA[local Plugin = script:FindFirstAncestorWhichIsA("Plugin")
 local Fusion = require(Plugin:FindFirstChild("Fusion", true))
 
 local Hydrate = Fusion.Hydrate
@@ -88,12 +80,12 @@ return function(props: ToolbarProperties)
 	return Hydrate(toolbarButton)(hydrateProps)
 end
 ]]></string>
-              </Properties>
-            </Item>
-            <Item class="ModuleScript" referent="7">
-              <Properties>
-                <string name="Name">Widget</string>
-                <string name="Source">local Plugin = script:FindFirstAncestorWhichIsA("Plugin")
+          </Properties>
+        </Item>
+        <Item class="ModuleScript" referent="5">
+          <Properties>
+            <string name="Name">Widget</string>
+            <string name="Source">local Plugin = script:FindFirstAncestorWhichIsA("Plugin")
 local Fusion = require(Plugin:FindFirstChild("Fusion", true))
 
 local Hydrate = Fusion.Hydrate
@@ -143,17 +135,17 @@ return function(props: PluginGuiProperties)
 
 	return Hydrate(newWidget)(props)
 end</string>
-              </Properties>
-            </Item>
-          </Item>
-          <Item class="Folder" referent="8">
-            <Properties>
-              <string name="Name">StudioComponents</string>
-            </Properties>
-            <Item class="ModuleScript" referent="9">
-              <Properties>
-                <string name="Name">Background</string>
-                <string name="Source"><![CDATA[local Plugin = script:FindFirstAncestorWhichIsA("Plugin")
+          </Properties>
+        </Item>
+      </Item>
+      <Item class="Folder" referent="6">
+        <Properties>
+          <string name="Name">StudioComponents</string>
+        </Properties>
+        <Item class="ModuleScript" referent="7">
+          <Properties>
+            <string name="Name">Background</string>
+            <string name="Source"><![CDATA[local Plugin = script:FindFirstAncestorWhichIsA("Plugin")
 local Fusion = require(Plugin:FindFirstChild("Fusion", true))
 
 local StudioComponents = script.Parent
@@ -194,12 +186,12 @@ return function(props: BackgroundProperties): Frame
 end
 
 ]]></string>
-              </Properties>
-            </Item>
-            <Item class="ModuleScript" referent="10">
-              <Properties>
-                <string name="Name">BaseButton</string>
-                <string name="Source">-- Roact version by @sircfenner
+          </Properties>
+        </Item>
+        <Item class="ModuleScript" referent="8">
+          <Properties>
+            <string name="Name">BaseButton</string>
+            <string name="Source">-- Roact version by @sircfenner
 -- Ported to Fusion by @YasuYoshida
 
 local Plugin = script:FindFirstAncestorWhichIsA("Plugin")
@@ -321,15 +313,15 @@ return function(props: BaseButtonProperties): TextButton
 	local hydrateProps = stripProps(props, COMPONENT_ONLY_PROPERTIES)
 	return Hydrate(newBaseButton)(hydrateProps)
 end</string>
-              </Properties>
-            </Item>
-            <Item class="ModuleScript" referent="11">
-              <Properties>
-                <string name="Name">BaseScrollFrame</string>
-                <BinaryString name="AttributesSerialize"></BinaryString>
-                <bool name="DefinesCapabilities">false</bool>
-                <string name="ScriptGuid">{0867BAB1-AFA4-4F70-B66A-2BA7FDC12144}</string>
-                <string name="Source">-- Written by @boatbomber
+          </Properties>
+        </Item>
+        <Item class="ModuleScript" referent="9">
+          <Properties>
+            <string name="Name">BaseScrollFrame</string>
+            <BinaryString name="AttributesSerialize"></BinaryString>
+            <bool name="DefinesCapabilities">false</bool>
+            <string name="ScriptGuid">{0867BAB1-AFA4-4F70-B66A-2BA7FDC12144}</string>
+            <string name="Source">-- Written by @boatbomber
 -- Modified by @mvyasu
 
 local Plugin = script:FindFirstAncestorWhichIsA("Plugin")
@@ -493,13 +485,13 @@ return function(props: BaseScrollFrameProperties): Frame
 	local hydrateProps = stripProps(props, COMPONENT_ONLY_PROPERTIES)
 	return Hydrate(containerFrame)(hydrateProps)
 end</string>
-                <int64 name="SourceAssetId">-1</int64>
-                <BinaryString name="Tags"></BinaryString>
-              </Properties>
-              <Item class="ModuleScript" referent="12">
-                <Properties>
-                  <string name="Name">ScrollArrow</string>
-                  <string name="Source">-- Roact version by @sircfenner
+            <int64 name="SourceAssetId">-1</int64>
+            <BinaryString name="Tags"></BinaryString>
+          </Properties>
+          <Item class="ModuleScript" referent="10">
+            <Properties>
+              <string name="Name">ScrollArrow</string>
+              <string name="Source">-- Roact version by @sircfenner
 -- Ported to Fusion by @YasuYoshida
 
 local Plugin = script:FindFirstAncestorWhichIsA("Plugin")
@@ -674,12 +666,12 @@ return function(props: ScrollArrowProperties): ImageButton
 
 	return Hydrate(newScrollArrow)(stripProps(props, COMPONENT_ONLY_PROPERTIES))
 end</string>
-                </Properties>
-              </Item>
-              <Item class="ModuleScript" referent="13">
-                <Properties>
-                  <string name="Name">ScrollBar</string>
-                  <string name="Source">-- Writen by @boatbomber
+            </Properties>
+          </Item>
+          <Item class="ModuleScript" referent="11">
+            <Properties>
+              <string name="Name">ScrollBar</string>
+              <string name="Source">-- Writen by @boatbomber
 -- Modified by @mvyasu
 
 local Plugin = script:FindFirstAncestorWhichIsA("Plugin")
@@ -909,13 +901,13 @@ return function(props: ScrollBarProperties): ImageButton
 		}
 	})(stripProps(props, COMPONENT_ONLY_PROPERTIES))
 end</string>
-                </Properties>
-              </Item>
-            </Item>
-            <Item class="ModuleScript" referent="14">
-              <Properties>
-                <string name="Name">BoxBorder</string>
-                <string name="Source"><![CDATA[local Plugin = script:FindFirstAncestorWhichIsA("Plugin")
+            </Properties>
+          </Item>
+        </Item>
+        <Item class="ModuleScript" referent="12">
+          <Properties>
+            <string name="Name">BoxBorder</string>
+            <string name="Source"><![CDATA[local Plugin = script:FindFirstAncestorWhichIsA("Plugin")
 local Fusion = require(Plugin:FindFirstChild("Fusion", true))
 
 local StudioComponents = script.Parent
@@ -982,12 +974,12 @@ return function(props: BoxBorderProperties): GuiObject
 	return Hydrate(props[Children])(hydrateProps)
 end
 ]]></string>
-              </Properties>
-            </Item>
-            <Item class="ModuleScript" referent="15">
-              <Properties>
-                <string name="Name">Button</string>
-                <string name="Source"><![CDATA[-- Roact version by @sircfenner
+          </Properties>
+        </Item>
+        <Item class="ModuleScript" referent="13">
+          <Properties>
+            <string name="Name">Button</string>
+            <string name="Source"><![CDATA[-- Roact version by @sircfenner
 -- Ported to Fusion by @YasuYoshida
 
 local Plugin = script:FindFirstAncestorWhichIsA("Plugin")
@@ -1013,12 +1005,12 @@ return function(props: ButtonProperties): TextButton
 	return newButton
 end
 ]]></string>
-              </Properties>
-            </Item>
-            <Item class="ModuleScript" referent="16">
-              <Properties>
-                <string name="Name">Checkbox</string>
-                <string name="Source"><![CDATA[-- Roact version by @sircfenner
+          </Properties>
+        </Item>
+        <Item class="ModuleScript" referent="14">
+          <Properties>
+            <string name="Name">Checkbox</string>
+            <string name="Source"><![CDATA[-- Roact version by @sircfenner
 -- Ported to Fusion by @YasuYoshida
 
 local Plugin = script:FindFirstAncestorWhichIsA("Plugin")
@@ -1207,12 +1199,12 @@ return function(props: CheckboxProperties): Frame
 	return Hydrate(newCheckboxFrame)(hydrateProps)
 end
 ]]></string>
-              </Properties>
-            </Item>
-            <Item class="ModuleScript" referent="17">
-              <Properties>
-                <string name="Name">ClassIcon</string>
-                <string name="Source"><![CDATA[-- Written by @boatbomber
+          </Properties>
+        </Item>
+        <Item class="ModuleScript" referent="15">
+          <Properties>
+            <string name="Name">ClassIcon</string>
+            <string name="Source"><![CDATA[-- Written by @boatbomber
 
 local StudioService = game:GetService("StudioService")
 local Plugin = script:FindFirstAncestorWhichIsA("Plugin")
@@ -1262,12 +1254,12 @@ return function(props: ClassIconProperties): Frame
 	})(hydrateProps)
 end
 ]]></string>
-              </Properties>
-            </Item>
-            <Item class="ModuleScript" referent="18">
-              <Properties>
-                <string name="Name">ColorPicker</string>
-                <string name="Source">-- Roact version by @sircfenner
+          </Properties>
+        </Item>
+        <Item class="ModuleScript" referent="16">
+          <Properties>
+            <string name="Name">ColorPicker</string>
+            <string name="Source">-- Roact version by @sircfenner
 -- Ported to Fusion by @YasuYoshida
 
 local Plugin = script:FindFirstAncestorWhichIsA("Plugin")
@@ -1530,15 +1522,15 @@ return function(props: ColorPickerProperties): Frame
 	local hydrateProps = stripProps(props, COMPONENT_ONLY_PROPERTIES)
 	return Hydrate(newColorPicker)(hydrateProps)
 end</string>
-              </Properties>
-            </Item>
-            <Item class="ModuleScript" referent="19">
-              <Properties>
-                <string name="Name">Dropdown</string>
-                <BinaryString name="AttributesSerialize"></BinaryString>
-                <bool name="DefinesCapabilities">false</bool>
-                <string name="ScriptGuid">{0076893B-B909-47D0-A403-21499BDF8AD2}</string>
-                <string name="Source"><![CDATA[
+          </Properties>
+        </Item>
+        <Item class="ModuleScript" referent="17">
+          <Properties>
+            <string name="Name">Dropdown</string>
+            <BinaryString name="AttributesSerialize"></BinaryString>
+            <bool name="DefinesCapabilities">false</bool>
+            <string name="ScriptGuid">{0076893B-B909-47D0-A403-21499BDF8AD2}</string>
+            <string name="Source"><![CDATA[
 local Plugin = script:FindFirstAncestorWhichIsA("Plugin")
 local Fusion = require(Plugin:FindFirstChild("Fusion", true))
 
@@ -1920,24 +1912,24 @@ return function(props: DropdownProperties): Frame
 
 	return Hydrate(newDropdown)(stripProps(props, COMPONENT_ONLY_PROPERTIES))
 end]]></string>
-                <int64 name="SourceAssetId">-1</int64>
-                <BinaryString name="Tags"></BinaryString>
-              </Properties>
-              <Item class="ModuleScript" referent="20">
-                <Properties>
-                  <string name="Name">Constants</string>
-                  <string name="Source">return {
+            <int64 name="SourceAssetId">-1</int64>
+            <BinaryString name="Tags"></BinaryString>
+          </Properties>
+          <Item class="ModuleScript" referent="18">
+            <Properties>
+              <string name="Name">Constants</string>
+              <string name="Source">return {
 	RowHeight = 25,
 	TextPaddingLeft = 5,
 	TextPaddingRight = 3,
 	MaxVisibleRows = 6,
 }</string>
-                </Properties>
-              </Item>
-              <Item class="ModuleScript" referent="21">
-                <Properties>
-                  <string name="Name">DropdownItem</string>
-                  <string name="Source">local Plugin = script:FindFirstAncestorWhichIsA("Plugin")
+            </Properties>
+          </Item>
+          <Item class="ModuleScript" referent="19">
+            <Properties>
+              <string name="Name">DropdownItem</string>
+              <string name="Source">local Plugin = script:FindFirstAncestorWhichIsA("Plugin")
 local Fusion = require(Plugin:FindFirstChild("Fusion", true))
 
 local StudioComponents = script.Parent.Parent
@@ -2032,13 +2024,13 @@ return function(props: DropdownItemProperties): TextButton
 	
 	return Hydrate(newDropdownItem)(hydrateProps)
 end</string>
-                </Properties>
-              </Item>
-            </Item>
-            <Item class="ModuleScript" referent="22">
-              <Properties>
-                <string name="Name">IconButton</string>
-                <string name="Source"><![CDATA[local Plugin = script:FindFirstAncestorWhichIsA("Plugin")
+            </Properties>
+          </Item>
+        </Item>
+        <Item class="ModuleScript" referent="20">
+          <Properties>
+            <string name="Name">IconButton</string>
+            <string name="Source"><![CDATA[local Plugin = script:FindFirstAncestorWhichIsA("Plugin")
 local Fusion = require(Plugin:FindFirstChild("Fusion", true))
 
 local StudioComponents = script.Parent
@@ -2155,12 +2147,12 @@ return function(props: IconButtonProperties): TextButton
 	return Hydrate(newBaseButton)(hydrateProps)
 end
 ]]></string>
-              </Properties>
-            </Item>
-            <Item class="ModuleScript" referent="23">
-              <Properties>
-                <string name="Name">Label</string>
-                <string name="Source"><![CDATA[-- Roact version by @sircfenner
+          </Properties>
+        </Item>
+        <Item class="ModuleScript" referent="21">
+          <Properties>
+            <string name="Name">Label</string>
+            <string name="Source"><![CDATA[-- Roact version by @sircfenner
 -- Ported to Fusion by @YasuYoshida
 
 local Plugin = script:FindFirstAncestorWhichIsA("Plugin")
@@ -2224,16 +2216,16 @@ return function(props: LabelProperties): TextLabel
 	return Hydrate(newLabel)(hydrateProps)
 end
 ]]></string>
-              </Properties>
-            </Item>
-            <Item class="Folder" referent="24">
-              <Properties>
-                <string name="Name">Licenses</string>
-              </Properties>
-              <Item class="ModuleScript" referent="25">
-                <Properties>
-                  <string name="Name">StudioComponents</string>
-                  <string name="Source">--[[
+          </Properties>
+        </Item>
+        <Item class="Folder" referent="22">
+          <Properties>
+            <string name="Name">Licenses</string>
+          </Properties>
+          <Item class="ModuleScript" referent="23">
+            <Properties>
+              <string name="Name">StudioComponents</string>
+              <string name="Source">--[[
 	MIT License
 
 	Copyright (c) 2021 sircfenner
@@ -2256,13 +2248,13 @@ end
 	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 	SOFTWARE.
 ]]</string>
-                </Properties>
-              </Item>
-            </Item>
-            <Item class="ModuleScript" referent="26">
-              <Properties>
-                <string name="Name">LimitedTextInput</string>
-                <string name="Source"><![CDATA[local Plugin = script:FindFirstAncestorWhichIsA("Plugin")
+            </Properties>
+          </Item>
+        </Item>
+        <Item class="ModuleScript" referent="24">
+          <Properties>
+            <string name="Name">LimitedTextInput</string>
+            <string name="Source"><![CDATA[local Plugin = script:FindFirstAncestorWhichIsA("Plugin")
 local Fusion = require(Plugin:FindFirstChild("Fusion", true))
 
 local StudioComponents = script.Parent
@@ -2348,12 +2340,12 @@ return function(props: LimitedTextInputProperties)
 	}
 end
 ]]></string>
-              </Properties>
-            </Item>
-            <Item class="ModuleScript" referent="27">
-              <Properties>
-                <string name="Name">Loading</string>
-                <string name="Source"><![CDATA[-- Written by @boatbomber
+          </Properties>
+        </Item>
+        <Item class="ModuleScript" referent="25">
+          <Properties>
+            <string name="Name">Loading</string>
+            <string name="Source"><![CDATA[-- Written by @boatbomber
 
 local Plugin = script:FindFirstAncestorWhichIsA("Plugin")
 local Fusion = require(Plugin:FindFirstChild("Fusion", true))
@@ -2497,12 +2489,12 @@ return function(props: LoadingProperties): Frame
 	return Hydrate(frame)(hydrateProps)
 end
 ]]></string>
-              </Properties>
-            </Item>
-            <Item class="ModuleScript" referent="28">
-              <Properties>
-                <string name="Name">MainButton</string>
-                <string name="Source">-- Roact version by @sircfenner
+          </Properties>
+        </Item>
+        <Item class="ModuleScript" referent="26">
+          <Properties>
+            <string name="Name">MainButton</string>
+            <string name="Source">-- Roact version by @sircfenner
 -- Ported to Fusion by @YasuYoshida
 
 local Plugin = script:FindFirstAncestorWhichIsA("Plugin")
@@ -2532,12 +2524,12 @@ return function(props: Button.ButtonProperties): TextButton
 	end
 	return Button(props)
 end</string>
-              </Properties>
-            </Item>
-            <Item class="ModuleScript" referent="29">
-              <Properties>
-                <string name="Name">ProgressBar</string>
-                <string name="Source">-- Written by @boatbomber
+          </Properties>
+        </Item>
+        <Item class="ModuleScript" referent="27">
+          <Properties>
+            <string name="Name">ProgressBar</string>
+            <string name="Source">-- Written by @boatbomber
 
 local Plugin = script:FindFirstAncestorWhichIsA("Plugin")
 local Fusion = require(Plugin:FindFirstChild("Fusion", true))
@@ -2595,12 +2587,12 @@ return function(props: ProgressProperties): Frame
     local hydrateProps = stripProps(props, COMPONENT_ONLY_PROPERTIES)
     return Hydrate(frame)(hydrateProps)
 end</string>
-              </Properties>
-            </Item>
-            <Item class="ModuleScript" referent="30">
-              <Properties>
-                <string name="Name">ScrollFrame</string>
-                <string name="Source">-- Written by @boatbomber
+          </Properties>
+        </Item>
+        <Item class="ModuleScript" referent="28">
+          <Properties>
+            <string name="Name">ScrollFrame</string>
+            <string name="Source">-- Written by @boatbomber
 -- Modified by @mvyasu
 
 local Plugin = script:FindFirstAncestorWhichIsA("Plugin")
@@ -2693,12 +2685,12 @@ return function(props: ScrollFrameProperties): Frame
 	
 	return BaseScrollFrame(stripProps(scrollFrameProps, COMPONENT_ONLY_PROPERTIES))
 end</string>
-              </Properties>
-            </Item>
-            <Item class="ModuleScript" referent="31">
-              <Properties>
-                <string name="Name">Shadow</string>
-                <string name="Source"><![CDATA[-- Written by @boatbomber
+          </Properties>
+        </Item>
+        <Item class="ModuleScript" referent="29">
+          <Properties>
+            <string name="Name">Shadow</string>
+            <string name="Source"><![CDATA[-- Written by @boatbomber
 
 type ShadowProperties = {
     Side: string,
@@ -2781,12 +2773,12 @@ return function(props: ShadowProperties): Frame
 	}
 end
 ]]></string>
-              </Properties>
-            </Item>
-            <Item class="ModuleScript" referent="32">
-              <Properties>
-                <string name="Name">Slider</string>
-                <string name="Source">-- Roact version by @sircfenner
+          </Properties>
+        </Item>
+        <Item class="ModuleScript" referent="30">
+          <Properties>
+            <string name="Name">Slider</string>
+            <string name="Source">-- Roact version by @sircfenner
 -- Ported to Fusion by @YasuYoshida
 
 local Plugin = script:FindFirstAncestorWhichIsA("Plugin")
@@ -2988,12 +2980,12 @@ return function(props: SliderProperties): TextButton
 	local hydrateProps = stripProps(props, COMPONENT_ONLY_PROPERTIES)
 	return Hydrate(newSlider)(hydrateProps)
 end</string>
-              </Properties>
-            </Item>
-            <Item class="ModuleScript" referent="33">
-              <Properties>
-                <string name="Name">TextInput</string>
-                <string name="Source">-- Roact version by @sircfenner
+          </Properties>
+        </Item>
+        <Item class="ModuleScript" referent="31">
+          <Properties>
+            <string name="Name">TextInput</string>
+            <string name="Source">-- Roact version by @sircfenner
 -- Ported to Fusion by @YasuYoshida
 
 local Plugin = script:FindFirstAncestorWhichIsA("Plugin")
@@ -3112,12 +3104,12 @@ return function(props: TextInputProperties): TextLabel
 	local hydrateProps = stripProps(props, COMPONENT_ONLY_PROPERTIES)
 	return Hydrate(newTextBox)(hydrateProps)
 end</string>
-              </Properties>
-            </Item>
-            <Item class="ModuleScript" referent="34">
-              <Properties>
-                <string name="Name">Title</string>
-                <string name="Source"><![CDATA[-- Written by @boatbomber
+          </Properties>
+        </Item>
+        <Item class="ModuleScript" referent="32">
+          <Properties>
+            <string name="Name">Title</string>
+            <string name="Source"><![CDATA[-- Written by @boatbomber
 
 local Plugin = script:FindFirstAncestorWhichIsA("Plugin")
 local Fusion = require(Plugin:FindFirstChild("Fusion", true))
@@ -3179,26 +3171,26 @@ return function(props: LabelProperties): TextLabel
 	return Hydrate(newLabel)(hydrateProps)
 end
 ]]></string>
-              </Properties>
-            </Item>
-            <Item class="Folder" referent="35">
-              <Properties>
-                <string name="Name">Util</string>
-              </Properties>
-              <Item class="ModuleScript" referent="36">
-                <Properties>
-                  <string name="Name">constants</string>
-                  <string name="Source">return {
+          </Properties>
+        </Item>
+        <Item class="Folder" referent="33">
+          <Properties>
+            <string name="Name">Util</string>
+          </Properties>
+          <Item class="ModuleScript" referent="34">
+            <Properties>
+              <string name="Name">constants</string>
+              <string name="Source">return {
 	CurvedBoxes = true,
 	CornerRadius = UDim.new(0, 2),
 	TextSize = 14,
 }</string>
-                </Properties>
-              </Item>
-              <Item class="ModuleScript" referent="37">
-                <Properties>
-                  <string name="Name">getDragInput</string>
-                  <string name="Source"><![CDATA[-- Roact version by @sircfenner
+            </Properties>
+          </Item>
+          <Item class="ModuleScript" referent="35">
+            <Properties>
+              <string name="Name">getDragInput</string>
+              <string name="Source"><![CDATA[-- Roact version by @sircfenner
 -- Ported to Fusion by @YasuYoshida
 
 --[[
@@ -3370,12 +3362,12 @@ return function(props: DragInputProperites): (vector2Value, types.Computed<Vecto
 	return currentValue, currentAlpha, isDragging
 end
 ]]></string>
-                </Properties>
-              </Item>
-              <Item class="ModuleScript" referent="38">
-                <Properties>
-                  <string name="Name">getModifier</string>
-                  <string name="Source">local Plugin = script:FindFirstAncestorWhichIsA("Plugin")
+            </Properties>
+          </Item>
+          <Item class="ModuleScript" referent="36">
+            <Properties>
+              <string name="Name">getModifier</string>
+              <string name="Source">local Plugin = script:FindFirstAncestorWhichIsA("Plugin")
 local Fusion = require(Plugin:FindFirstChild("Fusion", true))
 
 local Computed = Fusion.Computed
@@ -3414,12 +3406,12 @@ return function(modifierInput: modifierInput): types.Computed&lt;any>
 		return unwrap(modifierInput.Otherwise) or Enum.StudioStyleGuideModifier.Default
 	end)
 end</string>
-                </Properties>
-              </Item>
-              <Item class="ModuleScript" referent="39">
-                <Properties>
-                  <string name="Name">getMotionState</string>
-                  <string name="Source">local Plugin = script:FindFirstAncestorWhichIsA("Plugin")
+            </Properties>
+          </Item>
+          <Item class="ModuleScript" referent="37">
+            <Properties>
+              <string name="Name">getMotionState</string>
+              <string name="Source">local Plugin = script:FindFirstAncestorWhichIsA("Plugin")
 local Fusion = require(Plugin:FindFirstChild("Fusion", true))
 
 local Computed = Fusion.Computed
@@ -3453,12 +3445,12 @@ return function(goalState: types.StateObject&lt;any>, motionStateType: string, .
 		return if isMotionEnabled then motionGoalState else goalState
 	end
 end</string>
-                </Properties>
-              </Item>
-              <Item class="ModuleScript" referent="40">
-                <Properties>
-                  <string name="Name">getSelectedState</string>
-                  <string name="Source">local unwrap = require(script.Parent.unwrap)
+            </Properties>
+          </Item>
+          <Item class="ModuleScript" referent="38">
+            <Properties>
+              <string name="Name">getSelectedState</string>
+              <string name="Source">local unwrap = require(script.Parent.unwrap)
 local types = require(script.Parent.types)
 
 type GetSelectedStateProperties = {
@@ -3483,12 +3475,12 @@ return function(props: GetSelectedStateProperties): ()->any
 		return currentValue
 	end
 end</string>
-                </Properties>
-              </Item>
-              <Item class="ModuleScript" referent="41">
-                <Properties>
-                  <string name="Name">getState</string>
-                  <string name="Source">local Plugin = script:FindFirstAncestorWhichIsA("Plugin")
+            </Properties>
+          </Item>
+          <Item class="ModuleScript" referent="39">
+            <Properties>
+              <string name="Name">getState</string>
+              <string name="Source">local Plugin = script:FindFirstAncestorWhichIsA("Plugin")
 local Fusion = require(Plugin:FindFirstChild("Fusion", true))
 
 local unwrap = require(script.Parent.unwrap)
@@ -3509,12 +3501,12 @@ return function(inputValue: stateOrAny, defaultValue: stateOrAny, mustBeKind: st
 	
 	return if isDefaultAState then defaultValue else Fusion[stateKind](defaultValue)
 end</string>
-                </Properties>
-              </Item>
-              <Item class="ModuleScript" referent="42">
-                <Properties>
-                  <string name="Name">stripProps</string>
-                  <string name="Source"><![CDATA[return function(props, exclude)
+            </Properties>
+          </Item>
+          <Item class="ModuleScript" referent="40">
+            <Properties>
+              <string name="Name">stripProps</string>
+              <string name="Source"><![CDATA[return function(props, exclude)
     local export = table.clone(props)
     for _, k in ipairs(exclude) do
         export[k] = nil
@@ -3522,12 +3514,12 @@ end</string>
     return export
 end
 ]]></string>
-                </Properties>
-              </Item>
-              <Item class="ModuleScript" referent="43">
-                <Properties>
-                  <string name="Name">themeProvider</string>
-                  <string name="Source"><![CDATA[local types = require(script.Parent.types)
+            </Properties>
+          </Item>
+          <Item class="ModuleScript" referent="41">
+            <Properties>
+              <string name="Name">themeProvider</string>
+              <string name="Source"><![CDATA[local types = require(script.Parent.types)
 
 type styleStyleGuideColor = Enum.StudioStyleGuideColor | types.StateObject<Enum.StudioStyleGuideColor>
 type styleGuideModifier = Enum.StudioStyleGuideModifier | types.StateObject<Enum.StudioStyleGuideModifier>
@@ -3631,12 +3623,12 @@ end
 
 return themeProvider
 ]]></string>
-                </Properties>
-              </Item>
-              <Item class="ModuleScript" referent="44">
-                <Properties>
-                  <string name="Name">types</string>
-                  <string name="Source">--!strict
+            </Properties>
+          </Item>
+          <Item class="ModuleScript" referent="42">
+            <Properties>
+              <string name="Name">types</string>
+              <string name="Source">--!strict
 
 -- This is a duplicate of Fusion's PubTypes module because for whatever reason type checking doesn't like :FindFirstAncestorWhichIsA()
 -- While not a pretty solution, it's the easier solution without causing a huge mess within the components 
@@ -3788,24 +3780,24 @@ export type Children = Instance | StateObject&lt;Children> | {[any]: Children}
 export type PropertyTable = {[string | SpecialKey]: any}
 
 return nil</string>
-                </Properties>
-              </Item>
-              <Item class="ModuleScript" referent="45">
-                <Properties>
-                  <string name="Name">unwrap</string>
-                  <string name="Source">return function(x: any, useDependency: boolean?): any
+            </Properties>
+          </Item>
+          <Item class="ModuleScript" referent="43">
+            <Properties>
+              <string name="Name">unwrap</string>
+              <string name="Source">return function(x: any, useDependency: boolean?): any
 	if typeof(x)=="table" and x.type=="State" then
 		return x:get(useDependency)
 	end
 	return x
 end</string>
-                </Properties>
-              </Item>
-            </Item>
-            <Item class="ModuleScript" referent="46">
-              <Properties>
-                <string name="Name">VerticalCollapsibleSection</string>
-                <string name="Source"><![CDATA[-- Roact version by @sircfenner
+            </Properties>
+          </Item>
+        </Item>
+        <Item class="ModuleScript" referent="44">
+          <Properties>
+            <string name="Name">VerticalCollapsibleSection</string>
+            <string name="Source"><![CDATA[-- Roact version by @sircfenner
 -- Ported to Fusion by @YasuYoshida
 
 local Plugin = script:FindFirstAncestorWhichIsA("Plugin")
@@ -3988,12 +3980,12 @@ return function(props: VerticalExpandingListProperties): Frame
 	})(stripProps(props, COMPONENT_ONLY_PROPERTIES))
 end
 ]]></string>
-              </Properties>
-            </Item>
-            <Item class="ModuleScript" referent="47">
-              <Properties>
-                <string name="Name">VerticalExpandingList</string>
-                <string name="Source">-- Roact version by @sircfenner
+          </Properties>
+        </Item>
+        <Item class="ModuleScript" referent="45">
+          <Properties>
+            <string name="Name">VerticalExpandingList</string>
+            <string name="Source">-- Roact version by @sircfenner
 -- Ported to Fusion by @YasuYoshida
 
 local Plugin = script:FindFirstAncestorWhichIsA("Plugin")
@@ -4064,21 +4056,21 @@ return function(props: VerticalExpandingListProperties): Frame
 		}
 	)(hydrateProps)
 end</string>
-              </Properties>
-            </Item>
-          </Item>
-        </Item>
-        <Item class="Folder" referent="48">
-          <Properties>
-            <string name="Name">Modules</string>
           </Properties>
-          <Item class="ModuleScript" referent="49">
-            <Properties>
-              <string name="Name">Maid</string>
-              <BinaryString name="AttributesSerialize"></BinaryString>
-              <bool name="DefinesCapabilities">false</bool>
-              <string name="ScriptGuid">{2C130C29-938C-431C-8A73-A616994FB96D}</string>
-              <string name="Source">-- Janitor
+        </Item>
+      </Item>
+    </Item>
+    <Item class="Folder" referent="46">
+      <Properties>
+        <string name="Name">Modules</string>
+      </Properties>
+      <Item class="ModuleScript" referent="47">
+        <Properties>
+          <string name="Name">Maid</string>
+          <BinaryString name="AttributesSerialize"></BinaryString>
+          <bool name="DefinesCapabilities">false</bool>
+          <string name="ScriptGuid">{2C130C29-938C-431C-8A73-A616994FB96D}</string>
+          <string name="Source">-- Janitor
 -- Original by Validark
 -- Modifications by pobammer
 -- roblox-ts support by OverHash and Validark
@@ -4522,13 +4514,13 @@ end
 
 export type Janitor = typeof(Janitor.new())
 return Janitor</string>
-              <int64 name="SourceAssetId">-1</int64>
-              <BinaryString name="Tags"></BinaryString>
-            </Properties>
-            <Item class="ModuleScript" referent="50">
-              <Properties>
-                <string name="Name">GetPromiseLibrary</string>
-                <string name="Source">-- TODO: When Promise is on Wally, remove this in favor of just `script.Parent.Parent:FindFirstChild("Promise")`.
+          <int64 name="SourceAssetId">-1</int64>
+          <BinaryString name="Tags"></BinaryString>
+        </Properties>
+        <Item class="ModuleScript" referent="48">
+          <Properties>
+            <string name="Name">GetPromiseLibrary</string>
+            <string name="Source">-- TODO: When Promise is on Wally, remove this in favor of just `script.Parent.Parent:FindFirstChild("Promise")`.
 local ReplicatedFirst = game:GetService("ReplicatedFirst")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local ServerScriptService = game:GetService("ServerScriptService")
@@ -4575,12 +4567,12 @@ local function GetPromiseLibrary()
 end
 
 return GetPromiseLibrary</string>
-              </Properties>
-            </Item>
-            <Item class="ModuleScript" referent="51">
-              <Properties>
-                <string name="Name">Promise</string>
-                <string name="Source"><![CDATA[--[[
+          </Properties>
+        </Item>
+        <Item class="ModuleScript" referent="49">
+          <Properties>
+            <string name="Name">Promise</string>
+            <string name="Source"><![CDATA[--[[
 	An implementation of Promises similar to Promise/A+.
 ]]
 
@@ -6649,12 +6641,12 @@ end
 
 return Promise
 ]]></string>
-              </Properties>
-            </Item>
-            <Item class="ModuleScript" referent="52">
-              <Properties>
-                <string name="Name">Symbol</string>
-                <string name="Source">-- This only exists because the LSP warns Key `__tostring` not found in type `table?`.
+          </Properties>
+        </Item>
+        <Item class="ModuleScript" referent="50">
+          <Properties>
+            <string name="Name">Symbol</string>
+            <string name="Source">-- This only exists because the LSP warns Key `__tostring` not found in type `table?`.
 local function Symbol(Name: string)
 	local self = newproxy(true)
 	local Metatable = getmetatable(self)
@@ -6666,13 +6658,13 @@ local function Symbol(Name: string)
 end
 
 return Symbol</string>
-              </Properties>
-            </Item>
-          </Item>
-          <Item class="ModuleScript" referent="53">
-            <Properties>
-              <string name="Name">Mathf</string>
-              <string name="Source">local Mathf = {}
+          </Properties>
+        </Item>
+      </Item>
+      <Item class="ModuleScript" referent="51">
+        <Properties>
+          <string name="Name">Mathf</string>
+          <string name="Source">local Mathf = {}
 
 --
 
@@ -6953,12 +6945,12 @@ function Mathf.InterpolateCFrame(CF1,CF2,Percent)
 end
 
 return Mathf</string>
-            </Properties>
-          </Item>
-          <Item class="ModuleScript" referent="54">
-            <Properties>
-              <string name="Name">Promise</string>
-              <string name="Source">--[[ promise
+        </Properties>
+      </Item>
+      <Item class="ModuleScript" referent="52">
+        <Properties>
+          <string name="Name">Promise</string>
+          <string name="Source">--[[ promise
 	tyridge77
 	(Not a real promise, but borrowed some of the same functionality)
 ]]
@@ -7050,12 +7042,12 @@ function Promise:Timeout(n)
 end
 
 return Promise</string>
-            </Properties>
-          </Item>
-          <Item class="ModuleScript" referent="55">
-            <Properties>
-              <string name="Name">Sprites</string>
-              <string name="Source"><![CDATA[return
+        </Properties>
+      </Item>
+      <Item class="ModuleScript" referent="53">
+        <Properties>
+          <string name="Name">Sprites</string>
+          <string name="Source"><![CDATA[return
 	{
 		[1] = {ImageRectOffset = Vector2.new(0,0)},
 		[2] = {ImageRectOffset = Vector2.new(256,0)},
@@ -7065,20 +7057,20 @@ return Promise</string>
 		[6] = {ImageRectOffset = Vector2.new(256,256)},
 	}
 ]]></string>
-            </Properties>
-          </Item>
-        </Item>
-        <Item class="Folder" referent="56">
-          <Properties>
-            <string name="Name">Packages</string>
-          </Properties>
-          <Item class="ModuleScript" referent="57">
-            <Properties>
-              <string name="Name">Fusion</string>
-              <BinaryString name="AttributesSerialize"></BinaryString>
-              <bool name="DefinesCapabilities">false</bool>
-              <string name="ScriptGuid">{09E33C62-67B4-4DB7-A26C-EE0EF025DA45}</string>
-              <string name="Source"><![CDATA[--!strict
+        </Properties>
+      </Item>
+    </Item>
+    <Item class="Folder" referent="54">
+      <Properties>
+        <string name="Name">Packages</string>
+      </Properties>
+      <Item class="ModuleScript" referent="55">
+        <Properties>
+          <string name="Name">Fusion</string>
+          <BinaryString name="AttributesSerialize"></BinaryString>
+          <bool name="DefinesCapabilities">false</bool>
+          <string name="ScriptGuid">{09E33C62-67B4-4DB7-A26C-EE0EF025DA45}</string>
+          <string name="Source"><![CDATA[--!strict
 
 --[[
 	The entry point for the Fusion library.
@@ -7151,17 +7143,17 @@ return restrictRead("Fusion", {
 	doNothing = require(script.Utility.doNothing)
 }) :: Fusion
 ]]></string>
-              <int64 name="SourceAssetId">-1</int64>
-              <BinaryString name="Tags"></BinaryString>
-            </Properties>
-            <Item class="Folder" referent="58">
-              <Properties>
-                <string name="Name">Animation</string>
-              </Properties>
-              <Item class="ModuleScript" referent="59">
-                <Properties>
-                  <string name="Name">Spring</string>
-                  <string name="Source">--!nonstrict
+          <int64 name="SourceAssetId">-1</int64>
+          <BinaryString name="Tags"></BinaryString>
+        </Properties>
+        <Item class="Folder" referent="56">
+          <Properties>
+            <string name="Name">Animation</string>
+          </Properties>
+          <Item class="ModuleScript" referent="57">
+            <Properties>
+              <string name="Name">Spring</string>
+              <string name="Source">--!nonstrict
 
 --[[
 	Constructs a new computed state object, which follows the value of another
@@ -7378,12 +7370,12 @@ local function Spring&lt;T>(
 end
 
 return Spring</string>
-                </Properties>
-              </Item>
-              <Item class="ModuleScript" referent="60">
-                <Properties>
-                  <string name="Name">SpringScheduler</string>
-                  <string name="Source">--!strict
+            </Properties>
+          </Item>
+          <Item class="ModuleScript" referent="58">
+            <Properties>
+              <string name="Name">SpringScheduler</string>
+              <string name="Source">--!strict
 
 --[[
 	Manages batch updating of spring objects.
@@ -7475,12 +7467,12 @@ RunService:BindToRenderStep(
 )
 
 return SpringScheduler</string>
-                </Properties>
-              </Item>
-              <Item class="ModuleScript" referent="61">
-                <Properties>
-                  <string name="Name">Tween</string>
-                  <string name="Source">--!nonstrict
+            </Properties>
+          </Item>
+          <Item class="ModuleScript" referent="59">
+            <Properties>
+              <string name="Name">Tween</string>
+              <string name="Source">--!nonstrict
 
 --[[
 	Constructs a new computed state object, which follows the value of another
@@ -7615,12 +7607,12 @@ local function Tween&lt;T>(
 end
 
 return Tween</string>
-                </Properties>
-              </Item>
-              <Item class="ModuleScript" referent="62">
-                <Properties>
-                  <string name="Name">TweenScheduler</string>
-                  <string name="Source">--!strict
+            </Properties>
+          </Item>
+          <Item class="ModuleScript" referent="60">
+            <Properties>
+              <string name="Name">TweenScheduler</string>
+              <string name="Source">--!strict
 
 --[[
 	Manages batch updating of tween objects.
@@ -7694,12 +7686,12 @@ RunService:BindToRenderStep(
 )
 
 return TweenScheduler</string>
-                </Properties>
-              </Item>
-              <Item class="ModuleScript" referent="63">
-                <Properties>
-                  <string name="Name">getTweenRatio</string>
-                  <string name="Source">--!strict
+            </Properties>
+          </Item>
+          <Item class="ModuleScript" referent="61">
+            <Properties>
+              <string name="Name">getTweenRatio</string>
+              <string name="Source">--!strict
 
 --[[
 	Given a `tweenInfo` and `currentTime`, returns a ratio which can be used to
@@ -7741,12 +7733,12 @@ local function getTweenRatio(tweenInfo: TweenInfo, currentTime: number): number
 end
 
 return getTweenRatio</string>
-                </Properties>
-              </Item>
-              <Item class="ModuleScript" referent="64">
-                <Properties>
-                  <string name="Name">lerpType</string>
-                  <string name="Source">--!strict
+            </Properties>
+          </Item>
+          <Item class="ModuleScript" referent="62">
+            <Properties>
+              <string name="Name">lerpType</string>
+              <string name="Source">--!strict
 
 --[[
 	Linearly interpolates the given animatable types by a ratio.
@@ -7907,12 +7899,12 @@ local function lerpType(from: any, to: any, ratio: number): any
 end
 
 return lerpType</string>
-                </Properties>
-              </Item>
-              <Item class="ModuleScript" referent="65">
-                <Properties>
-                  <string name="Name">packType</string>
-                  <string name="Source">--!strict
+            </Properties>
+          </Item>
+          <Item class="ModuleScript" referent="63">
+            <Properties>
+              <string name="Name">packType</string>
+              <string name="Source">--!strict
 
 --[[
 	Packs an array of numbers into a given animatable data type.
@@ -8010,12 +8002,12 @@ local function packType(numbers: {number}, typeString: string): PubTypes.Animata
 end
 
 return packType</string>
-                </Properties>
-              </Item>
-              <Item class="ModuleScript" referent="66">
-                <Properties>
-                  <string name="Name">springCoefficients</string>
-                  <string name="Source"><![CDATA[--!strict
+            </Properties>
+          </Item>
+          <Item class="ModuleScript" referent="64">
+            <Properties>
+              <string name="Name">springCoefficients</string>
+              <string name="Source"><![CDATA[--!strict
 
 --[[
 	Returns a 2x2 matrix of coefficients for a given time, damping and speed.
@@ -8100,12 +8092,12 @@ end
 
 return springCoefficients
 ]]></string>
-                </Properties>
-              </Item>
-              <Item class="ModuleScript" referent="67">
-                <Properties>
-                  <string name="Name">unpackType</string>
-                  <string name="Source">--!strict
+            </Properties>
+          </Item>
+          <Item class="ModuleScript" referent="65">
+            <Properties>
+              <string name="Name">unpackType</string>
+              <string name="Source">--!strict
 
 --[[
 	Unpacks an animatable type into an array of numbers.
@@ -8193,17 +8185,17 @@ local function unpackType(value: any, typeString: string): {number}
 end
 
 return unpackType</string>
-                </Properties>
-              </Item>
-            </Item>
-            <Item class="Folder" referent="68">
-              <Properties>
-                <string name="Name">Colour</string>
-              </Properties>
-              <Item class="ModuleScript" referent="69">
-                <Properties>
-                  <string name="Name">Oklab</string>
-                  <string name="Source"><![CDATA[--!strict
+            </Properties>
+          </Item>
+        </Item>
+        <Item class="Folder" referent="66">
+          <Properties>
+            <string name="Name">Colour</string>
+          </Properties>
+          <Item class="ModuleScript" referent="67">
+            <Properties>
+              <string name="Name">Oklab</string>
+              <string name="Source"><![CDATA[--!strict
 
 --[[
 	Provides functions for converting Color3s into Oklab space, for more
@@ -8257,17 +8249,17 @@ end
 
 return Oklab
 ]]></string>
-                </Properties>
-              </Item>
-            </Item>
-            <Item class="Folder" referent="70">
-              <Properties>
-                <string name="Name">Dependencies</string>
-              </Properties>
-              <Item class="ModuleScript" referent="71">
-                <Properties>
-                  <string name="Name">captureDependencies</string>
-                  <string name="Source"><![CDATA[--!strict
+            </Properties>
+          </Item>
+        </Item>
+        <Item class="Folder" referent="68">
+          <Properties>
+            <string name="Name">Dependencies</string>
+          </Properties>
+          <Item class="ModuleScript" referent="69">
+            <Properties>
+              <string name="Name">captureDependencies</string>
+              <string name="Source"><![CDATA[--!strict
 
 --[[
 	Calls the given callback, and stores any used external dependencies.
@@ -8323,12 +8315,12 @@ end
 
 return captureDependencies
 ]]></string>
-                </Properties>
-              </Item>
-              <Item class="ModuleScript" referent="72">
-                <Properties>
-                  <string name="Name">initDependency</string>
-                  <string name="Source">--!strict
+            </Properties>
+          </Item>
+          <Item class="ModuleScript" referent="70">
+            <Properties>
+              <string name="Name">initDependency</string>
+              <string name="Source">--!strict
 
 --[[
 	Registers the creation of an object which can be used as a dependency.
@@ -8356,12 +8348,12 @@ local function initDependency(dependency: PubTypes.Dependency)
 end
 
 return initDependency</string>
-                </Properties>
-              </Item>
-              <Item class="ModuleScript" referent="73">
-                <Properties>
-                  <string name="Name">sharedState</string>
-                  <string name="Source">--!strict
+            </Properties>
+          </Item>
+          <Item class="ModuleScript" referent="71">
+            <Properties>
+              <string name="Name">sharedState</string>
+              <string name="Source">--!strict
 
 --[[
 	Stores shared state for dependency management functions.
@@ -8384,12 +8376,12 @@ return {
 	initialisedStack = initialisedStack,
 	initialisedStackSize = initialisedStackSize
 }</string>
-                </Properties>
-              </Item>
-              <Item class="ModuleScript" referent="74">
-                <Properties>
-                  <string name="Name">updateAll</string>
-                  <string name="Source">--!strict
+            </Properties>
+          </Item>
+          <Item class="ModuleScript" referent="72">
+            <Properties>
+              <string name="Name">updateAll</string>
+              <string name="Source">--!strict
 
 --[[
 	Given a reactive object, updates all dependent reactive objects.
@@ -8448,12 +8440,12 @@ local function updateAll(root: PubTypes.Dependency)
 end
 
 return updateAll</string>
-                </Properties>
-              </Item>
-              <Item class="ModuleScript" referent="75">
-                <Properties>
-                  <string name="Name">useDependency</string>
-                  <string name="Source">--!strict
+            </Properties>
+          </Item>
+          <Item class="ModuleScript" referent="73">
+            <Properties>
+              <string name="Name">useDependency</string>
+              <string name="Source">--!strict
 
 --[[
 	If a target set was specified by captureDependencies(), this will add the
@@ -8482,17 +8474,17 @@ local function useDependency(dependency: PubTypes.Dependency)
 end
 
 return useDependency</string>
-                </Properties>
-              </Item>
-            </Item>
-            <Item class="Folder" referent="76">
-              <Properties>
-                <string name="Name">Instances</string>
-              </Properties>
-              <Item class="ModuleScript" referent="77">
-                <Properties>
-                  <string name="Name">Children</string>
-                  <string name="Source">--!strict
+            </Properties>
+          </Item>
+        </Item>
+        <Item class="Folder" referent="74">
+          <Properties>
+            <string name="Name">Instances</string>
+          </Properties>
+          <Item class="ModuleScript" referent="75">
+            <Properties>
+              <string name="Name">Children</string>
+              <string name="Source">--!strict
 
 --[[
 	A special key for property tables, which parents any given descendants into
@@ -8640,12 +8632,12 @@ function Children:apply(propValue: any, applyTo: Instance, cleanupTasks: {PubTyp
 end
 
 return Children :: PubTypes.SpecialKey</string>
-                </Properties>
-              </Item>
-              <Item class="ModuleScript" referent="78">
-                <Properties>
-                  <string name="Name">Cleanup</string>
-                  <string name="Source">--!strict
+            </Properties>
+          </Item>
+          <Item class="ModuleScript" referent="76">
+            <Properties>
+              <string name="Name">Cleanup</string>
+              <string name="Source">--!strict
 
 --[[
 	A special key for property tables, which adds user-specified tasks to be run
@@ -8665,12 +8657,12 @@ function Cleanup:apply(userTask: any, applyTo: Instance, cleanupTasks: {PubTypes
 end
 
 return Cleanup</string>
-                </Properties>
-              </Item>
-              <Item class="ModuleScript" referent="79">
-                <Properties>
-                  <string name="Name">Hydrate</string>
-                  <string name="Source">--!strict
+            </Properties>
+          </Item>
+          <Item class="ModuleScript" referent="77">
+            <Properties>
+              <string name="Name">Hydrate</string>
+              <string name="Source">--!strict
 
 --[[
 	Processes and returns an existing instance, with options for setting
@@ -8689,12 +8681,12 @@ local function Hydrate(target: Instance)
 end
 
 return Hydrate</string>
-                </Properties>
-              </Item>
-              <Item class="ModuleScript" referent="80">
-                <Properties>
-                  <string name="Name">New</string>
-                  <string name="Source">--!strict
+            </Properties>
+          </Item>
+          <Item class="ModuleScript" referent="78">
+            <Properties>
+              <string name="Name">New</string>
+              <string name="Source">--!strict
 
 --[[
 	Constructs and returns a new instance, with options for setting properties,
@@ -8729,12 +8721,12 @@ local function New(className: string)
 end
 
 return New</string>
-                </Properties>
-              </Item>
-              <Item class="ModuleScript" referent="81">
-                <Properties>
-                  <string name="Name">OnChange</string>
-                  <string name="Source">--!strict
+            </Properties>
+          </Item>
+          <Item class="ModuleScript" referent="79">
+            <Properties>
+              <string name="Name">OnChange</string>
+              <string name="Source">--!strict
 
 --[[
 	Constructs special keys for property tables which connect property change
@@ -8768,12 +8760,12 @@ local function OnChange(propertyName: string): PubTypes.SpecialKey
 end
 
 return OnChange</string>
-                </Properties>
-              </Item>
-              <Item class="ModuleScript" referent="82">
-                <Properties>
-                  <string name="Name">OnEvent</string>
-                  <string name="Source">--!strict
+            </Properties>
+          </Item>
+          <Item class="ModuleScript" referent="80">
+            <Properties>
+              <string name="Name">OnEvent</string>
+              <string name="Source">--!strict
 
 --[[
 	Constructs special keys for property tables which connect event listeners to
@@ -8809,12 +8801,12 @@ local function OnEvent(eventName: string): PubTypes.SpecialKey
 end
 
 return OnEvent</string>
-                </Properties>
-              </Item>
-              <Item class="ModuleScript" referent="83">
-                <Properties>
-                  <string name="Name">Out</string>
-                  <string name="Source"><![CDATA[--!strict
+            </Properties>
+          </Item>
+          <Item class="ModuleScript" referent="81">
+            <Properties>
+              <string name="Name">Out</string>
+              <string name="Source"><![CDATA[--!strict
 
 --[[
 	A special key for property tables, which allows users to extract values from
@@ -8857,12 +8849,12 @@ end
 
 return Out
 ]]></string>
-                </Properties>
-              </Item>
-              <Item class="ModuleScript" referent="84">
-                <Properties>
-                  <string name="Name">Ref</string>
-                  <string name="Source">--!strict
+            </Properties>
+          </Item>
+          <Item class="ModuleScript" referent="82">
+            <Properties>
+              <string name="Name">Ref</string>
+              <string name="Source">--!strict
 
 --[[
 	A special key for property tables, which stores a reference to the instance
@@ -8891,12 +8883,12 @@ function Ref:apply(refState: any, applyTo: Instance, cleanupTasks: {PubTypes.Tas
 end
 
 return Ref</string>
-                </Properties>
-              </Item>
-              <Item class="ModuleScript" referent="85">
-                <Properties>
-                  <string name="Name">applyInstanceProps</string>
-                  <string name="Source">--!strict
+            </Properties>
+          </Item>
+          <Item class="ModuleScript" referent="83">
+            <Properties>
+              <string name="Name">applyInstanceProps</string>
+              <string name="Source">--!strict
 
 --[[
 	Applies a table of properties to an instance, including binding to any
@@ -9022,12 +9014,12 @@ local function applyInstanceProps(props: PubTypes.PropertyTable, applyTo: Instan
 end
 
 return applyInstanceProps</string>
-                </Properties>
-              </Item>
-              <Item class="ModuleScript" referent="86">
-                <Properties>
-                  <string name="Name">defaultProps</string>
-                  <string name="Source"><![CDATA[--!strict
+            </Properties>
+          </Item>
+          <Item class="ModuleScript" referent="84">
+            <Properties>
+              <string name="Name">defaultProps</string>
+              <string name="Source"><![CDATA[--!strict
 
 --[[
 	Stores 'sensible default' properties to be applied to instances created by
@@ -9137,17 +9129,17 @@ return {
 	}
 }
 ]]></string>
-                </Properties>
-              </Item>
-            </Item>
-            <Item class="Folder" referent="87">
-              <Properties>
-                <string name="Name">Logging</string>
-              </Properties>
-              <Item class="ModuleScript" referent="88">
-                <Properties>
-                  <string name="Name">logError</string>
-                  <string name="Source">--!strict
+            </Properties>
+          </Item>
+        </Item>
+        <Item class="Folder" referent="85">
+          <Properties>
+            <string name="Name">Logging</string>
+          </Properties>
+          <Item class="ModuleScript" referent="86">
+            <Properties>
+              <string name="Name">logError</string>
+              <string name="Source">--!strict
 
 --[[
 	Utility function to log a Fusion-specific error.
@@ -9179,12 +9171,12 @@ local function logError(messageID: string, errObj: Types.Error?, ...)
 end
 
 return logError</string>
-                </Properties>
-              </Item>
-              <Item class="ModuleScript" referent="89">
-                <Properties>
-                  <string name="Name">logErrorNonFatal</string>
-                  <string name="Source">--!strict
+            </Properties>
+          </Item>
+          <Item class="ModuleScript" referent="87">
+            <Properties>
+              <string name="Name">logErrorNonFatal</string>
+              <string name="Source">--!strict
 
 --[[
 	Utility function to log a Fusion-specific error, without halting execution.
@@ -9218,12 +9210,12 @@ local function logErrorNonFatal(messageID: string, errObj: Types.Error?, ...)
 end
 
 return logErrorNonFatal</string>
-                </Properties>
-              </Item>
-              <Item class="ModuleScript" referent="90">
-                <Properties>
-                  <string name="Name">logWarn</string>
-                  <string name="Source">--!strict
+            </Properties>
+          </Item>
+          <Item class="ModuleScript" referent="88">
+            <Properties>
+              <string name="Name">logWarn</string>
+              <string name="Source">--!strict
 
 --[[
 	Utility function to log a Fusion-specific warning.
@@ -9246,12 +9238,12 @@ local function logWarn(messageID, ...)
 end
 
 return logWarn</string>
-                </Properties>
-              </Item>
-              <Item class="ModuleScript" referent="91">
-                <Properties>
-                  <string name="Name">messages</string>
-                  <string name="Source">--!strict
+            </Properties>
+          </Item>
+          <Item class="ModuleScript" referent="89">
+            <Properties>
+              <string name="Name">messages</string>
+              <string name="Source">--!strict
 
 --[[
 	Stores templates for different kinds of logging messages.
@@ -9296,12 +9288,12 @@ return {
 	unrecognisedPropertyKey = "'%s' keys aren't accepted in property tables.",
 	unrecognisedPropertyStage = "'%s' isn't a valid stage for a special key to be applied at."
 }</string>
-                </Properties>
-              </Item>
-              <Item class="ModuleScript" referent="92">
-                <Properties>
-                  <string name="Name">parseError</string>
-                  <string name="Source">--!strict
+            </Properties>
+          </Item>
+          <Item class="ModuleScript" referent="90">
+            <Properties>
+              <string name="Name">parseError</string>
+              <string name="Source">--!strict
 
 --[[
 	An xpcall() error handler to collect and parse useful information about
@@ -9323,13 +9315,13 @@ local function parseError(err: string): Types.Error
 end
 
 return parseError</string>
-                </Properties>
-              </Item>
-            </Item>
-            <Item class="ModuleScript" referent="93">
-              <Properties>
-                <string name="Name">PubTypes</string>
-                <string name="Source">--!strict
+            </Properties>
+          </Item>
+        </Item>
+        <Item class="ModuleScript" referent="91">
+          <Properties>
+            <string name="Name">PubTypes</string>
+            <string name="Source">--!strict
 
 --[[
 	Stores common public-facing type information for Fusion APIs.
@@ -9475,16 +9467,16 @@ export type Children = Instance | StateObject&lt;Children> | {[any]: Children}
 export type PropertyTable = {[string | SpecialKey]: any}
 
 return nil</string>
-              </Properties>
-            </Item>
-            <Item class="Folder" referent="94">
-              <Properties>
-                <string name="Name">State</string>
-              </Properties>
-              <Item class="ModuleScript" referent="95">
-                <Properties>
-                  <string name="Name">Computed</string>
-                  <string name="Source">--!nonstrict
+          </Properties>
+        </Item>
+        <Item class="Folder" referent="92">
+          <Properties>
+            <string name="Name">State</string>
+          </Properties>
+          <Item class="ModuleScript" referent="93">
+            <Properties>
+              <string name="Name">Computed</string>
+              <string name="Source">--!nonstrict
 
 --[[
 	Constructs and returns objects which can be used to model derived reactive
@@ -9597,12 +9589,12 @@ local function Computed&lt;T>(processor: () -> T, destructor: ((T) -> ())?): Typ
 end
 
 return Computed</string>
-                </Properties>
-              </Item>
-              <Item class="ModuleScript" referent="96">
-                <Properties>
-                  <string name="Name">ForKeys</string>
-                  <string name="Source">--!nonstrict
+            </Properties>
+          </Item>
+          <Item class="ModuleScript" referent="94">
+            <Properties>
+              <string name="Name">ForKeys</string>
+              <string name="Source">--!nonstrict
 
 --[[
 	Constructs a new ForKeys state object which maps keys of an array using
@@ -9850,12 +9842,12 @@ local function ForKeys&lt;KI, KO, M>(
 end
 
 return ForKeys</string>
-                </Properties>
-              </Item>
-              <Item class="ModuleScript" referent="97">
-                <Properties>
-                  <string name="Name">ForPairs</string>
-                  <string name="Source">--!nonstrict
+            </Properties>
+          </Item>
+          <Item class="ModuleScript" referent="95">
+            <Properties>
+              <string name="Name">ForPairs</string>
+              <string name="Source">--!nonstrict
 
 --[[
 	Constructs a new ForPairs object which maps pairs of a table using
@@ -10164,12 +10156,12 @@ local function ForPairs&lt;KI, VI, KO, VO, M>(
 end
 
 return ForPairs</string>
-                </Properties>
-              </Item>
-              <Item class="ModuleScript" referent="98">
-                <Properties>
-                  <string name="Name">ForValues</string>
-                  <string name="Source">--!nonstrict
+            </Properties>
+          </Item>
+          <Item class="ModuleScript" referent="96">
+            <Properties>
+              <string name="Name">ForValues</string>
+              <string name="Source">--!nonstrict
 
 --[[
 	Constructs a new ForValues object which maps values of a table using
@@ -10415,12 +10407,12 @@ local function ForValues&lt;VI, VO, M>(
 end
 
 return ForValues</string>
-                </Properties>
-              </Item>
-              <Item class="ModuleScript" referent="99">
-                <Properties>
-                  <string name="Name">Observer</string>
-                  <string name="Source">--!nonstrict
+            </Properties>
+          </Item>
+          <Item class="ModuleScript" referent="97">
+            <Properties>
+              <string name="Name">Observer</string>
+              <string name="Source">--!nonstrict
 
 --[[
 	Constructs a new state object which can listen for updates on another state
@@ -10503,12 +10495,12 @@ local function Observer(watchedState: PubTypes.Value&lt;any>): Types.Observer
 end
 
 return Observer</string>
-                </Properties>
-              </Item>
-              <Item class="ModuleScript" referent="100">
-                <Properties>
-                  <string name="Name">Value</string>
-                  <string name="Source">--!nonstrict
+            </Properties>
+          </Item>
+          <Item class="ModuleScript" referent="98">
+            <Properties>
+              <string name="Name">Value</string>
+              <string name="Source">--!nonstrict
 
 --[[
 	Constructs and returns objects which can be used to model independent
@@ -10570,12 +10562,12 @@ local function Value&lt;T>(initialValue: T): Types.State&lt;T>
 end
 
 return Value</string>
-                </Properties>
-              </Item>
-              <Item class="ModuleScript" referent="101">
-                <Properties>
-                  <string name="Name">unwrap</string>
-                  <string name="Source">--!strict
+            </Properties>
+          </Item>
+          <Item class="ModuleScript" referent="99">
+            <Properties>
+              <string name="Name">unwrap</string>
+              <string name="Source">--!strict
 
 --[[
 	A common interface for accessing the values of state objects or constants.
@@ -10590,13 +10582,13 @@ local function unwrap&lt;T>(item: PubTypes.CanBeState&lt;T>, useDependency: bool
 end
 
 return unwrap</string>
-                </Properties>
-              </Item>
-            </Item>
-            <Item class="ModuleScript" referent="102">
-              <Properties>
-                <string name="Name">Types</string>
-                <string name="Source">--!strict
+            </Properties>
+          </Item>
+        </Item>
+        <Item class="ModuleScript" referent="100">
+          <Properties>
+            <string name="Name">Types</string>
+            <string name="Source">--!strict
 
 --[[
 	Stores common type information used internally.
@@ -10742,16 +10734,16 @@ export type Observer = PubTypes.Observer &amp; {
 }
 
 return nil</string>
-              </Properties>
-            </Item>
-            <Item class="Folder" referent="103">
-              <Properties>
-                <string name="Name">Utility</string>
-              </Properties>
-              <Item class="ModuleScript" referent="104">
-                <Properties>
-                  <string name="Name">None</string>
-                  <string name="Source">--!strict
+          </Properties>
+        </Item>
+        <Item class="Folder" referent="101">
+          <Properties>
+            <string name="Name">Utility</string>
+          </Properties>
+          <Item class="ModuleScript" referent="102">
+            <Properties>
+              <string name="Name">None</string>
+              <string name="Source">--!strict
 
 --[[
 	A symbol for representing nil values in contexts where nil is not usable.
@@ -10764,12 +10756,12 @@ return {
 	type = "Symbol",
 	name = "None"
 } :: Types.None</string>
-                </Properties>
-              </Item>
-              <Item class="ModuleScript" referent="105">
-                <Properties>
-                  <string name="Name">cleanup</string>
-                  <string name="Source">--!strict
+            </Properties>
+          </Item>
+          <Item class="ModuleScript" referent="103">
+            <Properties>
+              <string name="Name">cleanup</string>
+              <string name="Source">--!strict
 
 --[[
 	Cleans up the tasks passed in as the arguments.
@@ -10822,12 +10814,12 @@ local function cleanup(...: any)
 end
 
 return cleanup</string>
-                </Properties>
-              </Item>
-              <Item class="ModuleScript" referent="106">
-                <Properties>
-                  <string name="Name">doNothing</string>
-                  <string name="Source">--!strict
+            </Properties>
+          </Item>
+          <Item class="ModuleScript" referent="104">
+            <Properties>
+              <string name="Name">doNothing</string>
+              <string name="Source">--!strict
 
 --[[
 	An empty function. Often used as a destructor to indicate no destruction.
@@ -10837,12 +10829,12 @@ local function doNothing(...: any)
 end
 
 return doNothing</string>
-                </Properties>
-              </Item>
-              <Item class="ModuleScript" referent="107">
-                <Properties>
-                  <string name="Name">isSimilar</string>
-                  <string name="Source">--!strict
+            </Properties>
+          </Item>
+          <Item class="ModuleScript" referent="105">
+            <Properties>
+              <string name="Name">isSimilar</string>
+              <string name="Source">--!strict
 --[[
     Returns true if A and B are 'similar' - i.e. any user of A would not need
     to recompute if it changed to B.
@@ -10859,12 +10851,12 @@ local function isSimilar(a: any, b: any): boolean
 end
 
 return isSimilar</string>
-                </Properties>
-              </Item>
-              <Item class="ModuleScript" referent="108">
-                <Properties>
-                  <string name="Name">needsDestruction</string>
-                  <string name="Source">--!strict
+            </Properties>
+          </Item>
+          <Item class="ModuleScript" referent="106">
+            <Properties>
+              <string name="Name">needsDestruction</string>
+              <string name="Source">--!strict
 
 --[[
     Returns true if the given value is not automatically memory managed, and
@@ -10876,12 +10868,12 @@ local function needsDestruction(x: any): boolean
 end
 
 return needsDestruction</string>
-                </Properties>
-              </Item>
-              <Item class="ModuleScript" referent="109">
-                <Properties>
-                  <string name="Name">restrictRead</string>
-                  <string name="Source">--!strict
+            </Properties>
+          </Item>
+          <Item class="ModuleScript" referent="107">
+            <Properties>
+              <string name="Name">restrictRead</string>
+              <string name="Source">--!strict
 
 --[[
 	Restricts the reading of missing members for a table.
@@ -10909,12 +10901,12 @@ local function restrictRead(tableName: string, strictTable: table): table
 end
 
 return restrictRead</string>
-                </Properties>
-              </Item>
-              <Item class="ModuleScript" referent="110">
-                <Properties>
-                  <string name="Name">xtypeof</string>
-                  <string name="Source">--!strict
+            </Properties>
+          </Item>
+          <Item class="ModuleScript" referent="108">
+            <Properties>
+              <string name="Name">xtypeof</string>
+              <string name="Source">--!strict
 
 --[[
 	Extended typeof, designed for identifying custom objects.
@@ -10933,16 +10925,16 @@ local function xtypeof(x: any)
 end
 
 return xtypeof</string>
-                </Properties>
-              </Item>
-            </Item>
+            </Properties>
           </Item>
         </Item>
-        <Item class="Script" referent="111">
-          <Properties>
-            <string name="Name">UiScript</string>
-            <token name="RunContext">0</token>
-            <string name="Source"><![CDATA[local CoreGui = game:GetService("CoreGui")
+      </Item>
+    </Item>
+    <Item class="Script" referent="109">
+      <Properties>
+        <string name="Name">UiScript</string>
+        <token name="RunContext">0</token>
+        <string name="Source"><![CDATA[local CoreGui = game:GetService("CoreGui")
 local Selection = game:GetService("Selection")
 local RunService = game:GetService("RunService")
 local MaterialService = game:GetService("MaterialService")
@@ -12251,9 +12243,7 @@ plugin.Unloading:Connect(function()
 	ToolMaid:Cleanup()
 end)
 ]]></string>
-          </Properties>
-        </Item>
-      </Item>
+      </Properties>
     </Item>
   </Item>
 </roblox>

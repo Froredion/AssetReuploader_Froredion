@@ -11,6 +11,7 @@ local ServerStorage = game:GetService("ServerStorage")
 local HttpService = game:GetService("HttpService")
 local MarketplaceService = game:GetService("MarketplaceService")
 local AssetService = game:GetService("AssetService")
+local SerializationService = game:GetService("SerializationService")
 
 local Resources = script.Parent.Resources
 local Components = script.Parent.Components
@@ -140,7 +141,7 @@ local API_Key = Fusion.Value("")
 local OnlyUnderSelection = Fusion.Value(true)
 local SelectAssetsAfterSearch = Fusion.Value(true)
 local CreateBackup = Fusion.Value(false)
-local UseInstanceNames = Fusion.Value(false)
+local UseInstanceNames = Fusion.Value(true)
 
 local Searching = Fusion.Value(false)
 
@@ -665,16 +666,32 @@ local function RunServer(params)
 					instance:SetAttribute("OldId", id)
 
 					if instance:IsA("MeshPart") and UploadAssetType:get() == "Meshes" then
-						--[[ Cant write MeshId for meshparts, ugh ]]
+						--[[ Cant write MeshId for meshparts directly, use SerializationService ]]
+						local originalSize = instance.Size
 
-						local tags = instance:GetTags()
-						local attributes = instance:GetAttributes()
-						local clone = game:GetService("AssetService"):CreateMeshPartAsync(newId, {
-							CollisionFidelity = instance.CollisionFidelity,
-							RenderFidelity = instance.RenderFidelity,
-						})
-						clone.TextureID = instance.TextureID
-						instance:ApplyMesh(clone)
+						local serSuccess, serResult = pcall(function()
+							local buf = SerializationService:SerializeInstancesAsync({instance})
+							local data = buffer.tostring(buf)
+							local oldNum = tostring(id:match("%d+"))
+							local newNum = tostring(newId:match("%d+"))
+							data = data:gsub("rbxassetid://" .. oldNum, "rbxassetid://" .. newNum)
+							return SerializationService:DeserializeInstancesAsync(buffer.fromstring(data))
+						end)
+
+						if serSuccess and serResult and serResult[1] then
+							instance:ApplyMesh(serResult[1])
+							serResult[1]:Destroy()
+						else
+							warn("SerializationService failed, falling back:", serResult)
+							local clone = AssetService:CreateMeshPartAsync(newId, {
+								CollisionFidelity = instance.CollisionFidelity,
+								RenderFidelity = instance.RenderFidelity,
+							})
+							clone.TextureID = instance.TextureID
+							instance:ApplyMesh(clone)
+						end
+
+						instance.Size = originalSize
 					else
 						instance[property] = newId
 					end

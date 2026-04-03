@@ -393,7 +393,7 @@ async function createImageAsset(filePath, creatorID, isGroup, apiKey, oldAssetId
 }
 
 async function createMeshAsset(filePath, creatorID, isGroup, apiKey, oldAssetId, customName) {
-  return createAsset(filePath, creatorID, isGroup, apiKey, oldAssetId, customName, "Model", "application/octet-stream");
+  return createAsset(filePath, creatorID, isGroup, apiKey, oldAssetId, customName, "Mesh", "model/x-file-mesh-data");
 }
 
 async function getAssetModeration(assetId, apiKey) {

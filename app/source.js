@@ -320,13 +320,15 @@ async function pollOperationUntilDone(operationId, apiKey) {
   }
 }
 
-async function createImageAsset(
+async function createAsset(
   filePath,
   creatorID,
   isGroup,
   apiKey,
   oldAssetId,
-  customName
+  customName,
+  assetType,
+  contentType
 ) {
   const creationContext = isGroup
     ? { creator: { groupId: parseInt(creatorID, 10) }, assetPrivacy: "openUse" }
@@ -339,14 +341,14 @@ async function createImageAsset(
   form.append(
     "request",
     JSON.stringify({
-      assetType: "Image",
+      assetType: assetType,
       displayName: displayName,
       description: `Reuploaded from ${oldAssetId}`,
       creationContext,
     })
   );
   form.append("fileContent", fs.createReadStream(filePath), {
-    contentType: "image/png",
+    contentType: contentType,
   });
 
   const response = await fetch("https://apis.roblox.com/assets/v1/assets", {
@@ -384,6 +386,14 @@ async function createImageAsset(
   throw new Error(
     `Open Cloud upload failed (status ${response.status}): ${errorText}`
   );
+}
+
+async function createImageAsset(filePath, creatorID, isGroup, apiKey, oldAssetId, customName) {
+  return createAsset(filePath, creatorID, isGroup, apiKey, oldAssetId, customName, "Image", "image/png");
+}
+
+async function createMeshAsset(filePath, creatorID, isGroup, apiKey, oldAssetId, customName) {
+  return createAsset(filePath, creatorID, isGroup, apiKey, oldAssetId, customName, "Model", "application/octet-stream");
 }
 
 async function getAssetModeration(assetId, apiKey) {
@@ -908,14 +918,10 @@ async function runJobMeshes(jobId, assetIDs, creatorID, isGroup, apiKey, assetNa
     }
 
     jobInfo.done = 0;
+    jobInfo.moderated = [];
     const totalToUpload = downloaded.length;
     let uploadedCount = 0;
     jobInfo.message = "Starting mesh uploads...";
-
-    let cookie = getCookieFromRustCLI();
-    if (!cookie) {
-      throw new Error("Mesh upload: .ROBLOSECURITY cookie not found.");
-    }
 
     for (let i = 0; i < downloaded.length; i += 60) {
       const slice = downloaded.slice(i, i + 60);
@@ -923,30 +929,39 @@ async function runJobMeshes(jobId, assetIDs, creatorID, isGroup, apiKey, assetNa
       const newlyCreated = [];
       for (const item of slice) {
         uploadedCount++;
+        let newAssetId = null;
+        let rawModeration = null;
         try {
           jobInfo.message = `${uploadedCount}/${totalToUpload} uploading mesh...`;
           // Get custom name from assetNames mapping if available
           let customName = null;
+          let displayId = item.oldId;
           if (assetNames && assetNames[item.oldId]) {
             if (typeof assetNames[item.oldId] === 'object') {
               customName = assetNames[item.oldId].name;
+              displayId = assetNames[item.oldId].originalId;
             } else {
               customName = assetNames[item.oldId];
             }
           }
-          const newAssetId = await uploadMesh(
+          const result = await createMeshAsset(
             item.filePath,
-            cookie,
             creatorID,
             isGroup,
+            apiKey,
+            displayId,
             customName
           );
-          newlyCreated.push({
-            oldId: item.oldId,
-            newId: newAssetId,
-          });
+          newAssetId = result.newAssetId;
+          rawModeration = result.rawModeration;
         } catch (err) {
           console.error(`[runJobMeshes] Upload error for ${item.oldId}:`, err);
+          if (
+            err.message.includes("status 401") &&
+            err.message.includes("Invalid API Key")
+          ) {
+            jobInfo.warnApiKey = true;
+          }
           jobInfo.failures.push({
             assetId: item.oldId,
             stage: "upload",
@@ -956,30 +971,63 @@ async function runJobMeshes(jobId, assetIDs, creatorID, isGroup, apiKey, assetNa
           jobInfo.done = uploadedCount;
           continue;
         }
+
+        newlyCreated.push({
+          oldId: item.oldId,
+          newId: newAssetId,
+          rawModeration,
+        });
+
         jobInfo.done = uploadedCount;
         jobInfo.message = `${uploadedCount}/${totalToUpload} uploaded (mesh)`;
       }
 
-      newlyCreated.forEach((entry) => {
-        jobInfo.results.push({
-          oldId: entry.oldId,
-          newId: `rbxassetid://${entry.newId}`,
-        });
-      });
+      // Check moderation for uploaded meshes
+      for (const entry of newlyCreated) {
+        let moderationState = null;
+
+        if (entry.rawModeration && entry.rawModeration.moderationState) {
+          moderationState = entry.rawModeration.moderationState;
+        } else {
+          try {
+            const modData = await getAssetModeration(entry.newId, apiKey);
+            moderationState = modData?.moderationState ?? null;
+          } catch {
+            moderationState = "Unknown";
+          }
+        }
+
+        if (moderationState && moderationState !== "Approved") {
+          jobInfo.moderated.push({
+            oldId: entry.oldId,
+            newId: `rbxassetid://${entry.newId}`,
+            state: moderationState,
+          });
+        } else {
+          jobInfo.results.push({
+            oldId: entry.oldId,
+            newId: `rbxassetid://${entry.newId}`,
+          });
+        }
+      }
 
       if (i + 60 < downloaded.length) {
         jobInfo.message = "Waiting...";
-        console.log("[runJobMeshes] Upload batch done. Sleeping 60s...");
+        console.log("[runJobMeshes] Upload+moderation batch done. Sleeping 60s...");
         await sleep(60_000);
       }
     }
 
     let finalMsg = `${jobInfo.results.length} mesh(es) reuploaded.`;
+    if (jobInfo.warnApiKey) {
+      finalMsg = `Some or all meshes failed. The API Key may be invalid.`;
+    }
     jobInfo.message = finalMsg;
     jobInfo.finished = true;
 
     console.log(`[runJobMeshes] Job ${jobId} complete.
   Approved: ${jobInfo.results.length},
+  Moderated: ${jobInfo.moderated.length},
   Failures: ${jobInfo.failures.length}`);
   } catch (err) {
     console.error(`[runJobMeshes] Fatal error in job ${jobId}:`, err);

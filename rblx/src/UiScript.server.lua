@@ -170,7 +170,7 @@ local CanSearch = Fusion.Computed(function()
 	return true
 end)
 local ValidIDAndAPIKey = Fusion.Computed(function()
-	return tonumber(ID:get()) ~= nil and (API_Key:get():match("%S") or UploadAssetType:get() ~= "Images")
+	return tonumber(ID:get()) ~= nil and (API_Key:get():match("%S") or UploadAssetType:get() == "Animations")
 end)
 
 local ProgressString = Fusion.Value("")
@@ -666,32 +666,44 @@ local function RunServer(params)
 					instance:SetAttribute("OldId", id)
 
 					if instance:IsA("MeshPart") and UploadAssetType:get() == "Meshes" then
-						--[[ Cant write MeshId for meshparts directly, use SerializationService ]]
+						--[[ Cant write MeshId for meshparts, use SerializationService ]]
 						local originalSize = instance.Size
+						local originalTextureID = instance.TextureID
 
-						local serSuccess, serResult = pcall(function()
-							local buf = SerializationService:SerializeInstancesAsync({instance})
-							local data = buffer.tostring(buf)
-							local oldNum = tostring(id:match("%d+"))
-							local newNum = tostring(newId:match("%d+"))
-							data = data:gsub("rbxassetid://" .. oldNum, "rbxassetid://" .. newNum)
-							return SerializationService:DeserializeInstancesAsync(buffer.fromstring(data))
+						-- Serialize, swap MeshId URL, deserialize
+						local buf = SerializationService:SerializeInstancesAsync({instance})
+						local data = buffer.tostring(buf)
+						local oldNum = tostring(id:match("%d+"))
+						local newNum = tostring(newId:match("%d+"))
+
+						-- Pad shorter number so binary length stays the same
+						if #newNum < #oldNum then
+							newNum = string.rep("0", #oldNum - #newNum) .. newNum
+						elseif #newNum > #oldNum then
+							oldNum = string.rep("0", #newNum - #oldNum) .. oldNum
+						end
+
+						data = data:gsub(oldNum, newNum)
+						local newBuf = buffer.fromstring(data)
+
+						local deserializeSuccess, deserialized = pcall(function()
+							return SerializationService:DeserializeInstancesAsync(newBuf)
 						end)
 
-						if serSuccess and serResult and serResult[1] then
-							instance:ApplyMesh(serResult[1])
-							serResult[1]:Destroy()
+						if deserializeSuccess and deserialized and deserialized[1] then
+							instance:ApplyMesh(deserialized[1])
+							deserialized[1]:Destroy()
 						else
-							warn("SerializationService failed, falling back:", serResult)
+							warn("SerializationService mesh swap failed, using CreateMeshPartAsync:", deserialized)
 							local clone = AssetService:CreateMeshPartAsync(newId, {
 								CollisionFidelity = instance.CollisionFidelity,
 								RenderFidelity = instance.RenderFidelity,
 							})
-							clone.TextureID = instance.TextureID
 							instance:ApplyMesh(clone)
 						end
 
 						instance.Size = originalSize
+						instance.TextureID = originalTextureID
 					else
 						instance[property] = newId
 					end
@@ -950,7 +962,7 @@ local function CreateFusionUi(widget)
 		TextXAlignment = "Left",
 		Enabled = NotRunning,
 		Visible = Fusion.Computed(function()
-			return UploadAssetType:get() == "Images"
+			return UploadAssetType:get() ~= "Animations"
 		end),
 	})
 
@@ -966,7 +978,7 @@ local function CreateFusionUi(widget)
 			}),
 		},
 		Visible = Fusion.Computed(function()
-			return UploadAssetType:get() == "Images"
+			return UploadAssetType:get() ~= "Animations"
 		end),
 	})
 	ApiKeyBox.FocusLost:Connect(function()

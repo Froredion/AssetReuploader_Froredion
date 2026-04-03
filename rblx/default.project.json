@@ -1,11 +1,6 @@
 {
   "name": "AssetReuploader",
   "tree": {
-    "$className": "DataModel",
-    "Workspace": {
-      "$path": "src/Workspace",
-      "$ignoreUnknownInstances": true,
-      "$className": "Workspace"
-    }
+    "$path": "src"
   }
 }

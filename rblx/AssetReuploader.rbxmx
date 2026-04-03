@@ -1,12 +1,11 @@
 <roblox version="4">
-  <Item class="DataModel" referent="0">
+  <Item class="Folder" referent="0">
     <Properties>
       <string name="Name">AssetReuploader</string>
     </Properties>
-    <Item class="Workspace" referent="1">
+    <Item class="Folder" referent="1">
       <Properties>
         <string name="Name">Workspace</string>
-        <bool name="NeedsPivotMigration">false</bool>
       </Properties>
       <Item class="Folder" referent="2">
         <Properties>

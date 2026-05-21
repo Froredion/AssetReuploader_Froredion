@@ -663,8 +663,6 @@ local function RunServer(params)
 
 				local newId = approvedMap[lookupKey]
 				if newId then
-					instance:SetAttribute("OldId", id)
-
 					if instance:IsA("MeshPart") and UploadAssetType:get() == "Meshes" then
 						--[[ Cant write MeshId for meshparts, use SerializationService ]]
 						local originalSize = instance.Size
@@ -1167,35 +1165,44 @@ local function CreateFusionUi(widget)
 				local instanceToKeyMap = {} -- Map instance to its unique key
 
 				if UseInstanceNames:get() then
-					-- When using instance names, upload each instance separately
+					-- Dedup by asset id. First instance with a given id wins the name;
+					-- later instances sharing that id reuse the same upload.
+					-- Different ids that happen to share a name get suffixed (_2, _3, ...)
+					-- so each upload still has a distinct name.
 					assetNames = {}
-					local nameCounter = {} -- Track duplicate names
+					local keyById = {} -- [id] = uniqueKey
+					local usedNames = {} -- track final names across different ids
+					local nameCounter = {}
 
 					for i, entry in foundInstances do
 						local id = entry.id
 						local instance = entry.instance
 
 						if instance then
-							local baseName = instance.Name
+							local uniqueKey = keyById[id]
 
-							-- Make name unique by adding counter if duplicate
-							if not nameCounter[baseName] then
-								nameCounter[baseName] = 0
+							if not uniqueKey then
+								-- First time seeing this id → new upload entry, claim the name.
+								local baseName = instance.Name
+								local finalName = baseName
+								if usedNames[finalName] then
+									nameCounter[baseName] = (nameCounter[baseName] or 1) + 1
+									finalName = baseName .. "_" .. nameCounter[baseName]
+									while usedNames[finalName] do
+										nameCounter[baseName] = nameCounter[baseName] + 1
+										finalName = baseName .. "_" .. nameCounter[baseName]
+									end
+								end
+								usedNames[finalName] = true
+
+								uniqueKey = id .. "#" .. i
+								keyById[id] = uniqueKey
+								table.insert(assetIDs, uniqueKey)
+								assetNames[uniqueKey] = {
+									originalId = id,
+									name = finalName,
+								}
 							end
-							nameCounter[baseName] = nameCounter[baseName] + 1
-
-							local uniqueName = baseName
-							if nameCounter[baseName] > 1 then
-								uniqueName = baseName .. "_" .. nameCounter[baseName]
-							end
-
-							-- Create unique key for this specific instance
-							local uniqueKey = id .. "#" .. i
-							table.insert(assetIDs, uniqueKey)
-							assetNames[uniqueKey] = {
-								originalId = id,
-								name = uniqueName,
-							}
 
 							-- Store mapping for later replacement
 							instanceToKeyMap[instance] = uniqueKey

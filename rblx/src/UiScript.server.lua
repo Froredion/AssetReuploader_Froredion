@@ -149,7 +149,43 @@ local SearchMaid = Maid.new()
 local SearchPromise
 local FoundInstances = Fusion.Value({})
 local NumSkippedInstances = Fusion.Value(0)
+local NumReusedInstances = Fusion.Value(0) -- replaced from the saved map, no upload needed
+local NumUncheckedInstances = Fusion.Value(0) -- GetProductInfo kept failing (rate limit)
 local RanSearch = Fusion.Value(false)
+
+--[[ Reupload map: remembers old asset id -> new asset id per creator, so an asset is never
+	uploaded twice across runs. Without it, every run that misses some instances of an asset
+	(e.g. rate-limited lookups) uploads that asset again under another id. ]]
+local function GetReuploadMapKey()
+	local creatorType = if GroupOwner:get() then "Group" else "User"
+	return `ReuploadMap_{creatorType}_{ID:get()}_{UploadAssetType:get()}`
+end
+
+local function LoadReuploadMap()
+	return GetSetting(GetReuploadMapKey()) or {}
+end
+
+local function SaveReuploadMap(map)
+	SetSetting(GetReuploadMapKey(), map)
+end
+
+-- GetProductInfo throttles on big searches; retry with backoff instead of silently skipping
+local function GetProductInfoWithRetry(assetId)
+	local delay = 0.5
+	for attempt = 1, 6 do
+		local success, info = pcall(function()
+			return MarketplaceService:GetProductInfo(assetId)
+		end)
+		if success and info then
+			return info
+		end
+		if attempt < 6 then
+			task.wait(delay)
+			delay = math.min(delay * 2, 8)
+		end
+	end
+	return nil
+end
 local SelectingGroup = Fusion.Value(false)
 
 local NotSelectingGroup = Fusion.Computed(function()
@@ -163,7 +199,8 @@ end)
 
 local CanSearch = Fusion.Computed(function()
 	if OnlyUnderSelection:get() then
-		if NumSelected:get() > 1 then
+		-- Any number of selected instances works now; just need at least one
+		if NumSelected:get() == 0 then
 			return false
 		end
 	end
@@ -188,13 +225,17 @@ local function RunSearch()
 	end)
 
 	SearchPromise = Promise.new(function(resolve, reject)
-		local startAt = if OnlyUnderSelection:get() then Selection:Get()[1] else game
 		local currentFound = 0
 
-		local open = { startAt }
+		-- Search under every selected instance, not only the first one
+		local open = if OnlyUnderSelection:get() then table.clone(Selection:Get()) else { game }
 
 		local list = {}
 		local NumSkipped = 0
+		local NumReused = 0
+		local NumUnchecked = 0
+		local reuseMap = LoadReuploadMap()
+		local infoCache = {} -- [assetId] = productInfo or false; one lookup per asset id per search
 		local assetTypeAnimation = UploadAssetType:get() == "Animations"
 
 		local replacing = if UploadAssetType:get() == "Meshes" then ReplacingMeshes else ReplacingImages
@@ -259,13 +300,33 @@ local function RunSearch()
 					local ValidID = false
 
 					local idNumber = foundID:match("%d+")
+
+					-- Already reuploaded in an earlier run: point at that copy instead of uploading again.
+					-- (MeshPart.MeshId can't be written directly, so meshes still go through the normal path.)
+					local mappedId = idNumber and reuseMap[idNumber]
+					if mappedId and not (checkingInstance:IsA("MeshPart") and foundProperty == "MeshId") then
+						local applied = pcall(function()
+							checkingInstance[foundProperty] = mappedId
+						end)
+						if applied then
+							NumReused += 1
+							return
+						end
+					end
+
 					if idNumber then
 						idNumber = tonumber(idNumber)
 
-						local success, productInfo = pcall(function()
-							return MarketplaceService:GetProductInfo(idNumber)
-						end)
-						if success and productInfo then
+						local productInfo = infoCache[idNumber]
+						if productInfo == nil then
+							productInfo = GetProductInfoWithRetry(idNumber) or false
+							infoCache[idNumber] = productInfo
+						end
+						if not productInfo then
+							NumUnchecked += 1
+							warn(`AssetReuploader: couldn't look up {foundID} on {checkingInstance:GetFullName()}, search again later`)
+						end
+						if productInfo then
 							local creatorID = productInfo.Creator.CreatorTargetId
 							local creatorType = productInfo.Creator.CreatorType
 
@@ -318,12 +379,14 @@ local function RunSearch()
 				runUntil = os.clock() + runDuration
 			end
 		end
-		resolve(list, NumSkipped)
+		resolve(list, NumSkipped, NumReused, NumUnchecked)
 	end)
 	Searching:set(SearchPromise)
-	SearchPromise:andThen(function(list, numSkipped)
+	SearchPromise:andThen(function(list, numSkipped, numReused, numUnchecked)
 		FoundInstances:set(list)
 		NumSkippedInstances:set(numSkipped)
+		NumReusedInstances:set(numReused or 0)
+		NumUncheckedInstances:set(numUnchecked or 0)
 		RanSearch:set(true)
 		Searching:set(nil)
 
@@ -643,9 +706,16 @@ local function RunServer(params)
 
 			-- A) Replace IDs in the game with the approved ones
 			local approvedMap = {}
+			local reuseMap = LoadReuploadMap()
 			for _, entry in resultTables.approved do
 				approvedMap[entry.oldId] = entry.newId
+				-- Remember old -> new so later runs reuse this upload ("123#4" unique keys -> "123")
+				local oldNumber = tostring(entry.oldId):match("%d+")
+				if oldNumber and entry.newId then
+					reuseMap[oldNumber] = entry.newId
+				end
 			end
+			SaveReuploadMap(reuseMap)
 
 			local replaceCount = 0
 			local foundInstances = FoundInstances:get()
@@ -1120,11 +1190,18 @@ local function CreateFusionUi(widget)
 		Parent = bg,
 		Text = Fusion.Computed(function()
 			local numSkipped = NumSkippedInstances:get()
-			if numSkipped == 0 then
+			if numSkipped == 0 and NumReusedInstances:get() == 0 and NumUncheckedInstances:get() == 0 then
 				return ""
 			end
 			local creatorType = if GroupOwner:get() then "Group" else "User"
-			return `{numSkipped} instances were skipped(Already owned by this {creatorType})`
+			local text = `{numSkipped} instances were skipped(Already owned by this {creatorType})`
+			if NumReusedInstances:get() > 0 then
+				text ..= `, {NumReusedInstances:get()} pointed at earlier reuploads`
+			end
+			if NumUncheckedInstances:get() > 0 then
+				text ..= `, {NumUncheckedInstances:get()} couldn't be checked (search again)`
+			end
+			return text
 		end),
 		Size = UDim2.fromOffset(200, 10),
 		TextColor3 = Color3.new(0.890196, 0.745098, 0.458824),
@@ -1136,7 +1213,7 @@ local function CreateFusionUi(widget)
 			if not RanSearch:get() then
 				return false
 			end
-			if NumSkippedInstances:get() == 0 then
+			if NumSkippedInstances:get() == 0 and NumReusedInstances:get() == 0 and NumUncheckedInstances:get() == 0 then
 				return false
 			end
 			return true
